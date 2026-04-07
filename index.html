@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stochastic Generative Plug-and-Play Priors</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="description" content="Stochastic Generative Plug-and-Play Priors." />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <h1 class="title">Stochastic Generative Plug-and-Play Priors</h1>
+      <p class="authors">
+        Chicago Y. Park<sup>1</sup>, Edward P. Chandler<sup>1</sup>, Yuyang Hu<sup>2</sup>, Michael T. McCann<sup>3</sup>, Cristina Garcia-Cardona<sup>3</sup>, Brendt Wohlberg<sup>3</sup>, Ulugbek S. Kamilov<sup>1</sup>
+      </p>
+      <p class="affiliations">
+        <sup>1</sup>UW-Madison &nbsp;&nbsp; <sup>2</sup>WashU &nbsp;&nbsp; <sup>3</sup>Los Alamos National Laboratory
+      </p>
+
+      <div class="links">
+        <a href="https://arxiv.org/abs/2604.03603" class="btn">Paper (arXiv)</a>
+        <a href="https://github.com/uw-cig/SGPnP" class="btn">Code (GitHub)</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="visualization">
+    <div class="container">
+
+      <table class="toy-table" width="100%">
+        <tr>
+          <td style="text-align: center"><img src="assets/box_figure.png" alt="Far-away init dynamics" loading="lazy" decoding="async" /></td>
+        </tr>
+      </table>
+
+      <div class="callout">
+        <div class="callout-body">Our <strong>stochastic generative Plug-and-Play (SGPnP)</strong> framework is effective for highly ill-posed inverse problems.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tldr">
+    <div class="container">
+      <h2>TL;DR</h2>
+      <ul>
+<li><strong>Score-based PnP:</strong> We show how pretrained score-based diffusion models can be used directly as priors inside classical Plug-and-Play reconstruction algorithms.</li>
+<li><strong>Stochastic generative update:</strong> We introduce a stochastic generative PnP framework that adds noise before denoising to better match the score model training regime.</li>
+<li><strong>Theory:</strong> The injected noise smooths the objective and helps the optimization avoid strict saddle points, while annealing enables convergence to a stationary point.</li>
+<li><strong>Flexibility:</strong> The framework works with multiple PnP algorithms, including ADMM, HQS, and PGM-style updates, and allows the injected noise level and denoiser noise level to differ.</li>
+<li><strong>Strong performance:</strong> The method improves reconstruction on challenging inverse problems such as large-mask inpainting and multi-coil MRI, outperforming standard PnP baselines and remaining competitive with diffusion-based solvers.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="method">
+    <div class="container">
+      <h2>Abstract</h2>
+      <div class="method-block">
+        <p>
+          Plug-and-play (PnP) methods are widely used for solving imaging inverse problems by incorporating a denoiser into optimization algorithms.
+Score-based diffusion models (SBDMs) have recently demonstrated strong generative performance through a denoiser trained across a wide range of noise levels.
+Despite their shared reliance on denoisers, it remains unclear how to systematically use SBDMs as priors within <strong>classical</strong> PnP frameworks without relying on the reverse diffusion sampling.
+In this paper, we establish a score-based interpretation of PnP that justifies using pre-trained SBDMs to be used directly within PnP algorithms.
+Building on this connection, we introduce a stochastic generative PnP (SGPnP) framework that injects noise to better leverage the expressive generative SBDM priors, improving robustness in severely ill-posed inverse problems.
+We provide a new theory showing that this noise injection induces optimization on a Gaussian-smoothed objective and promotes escape from strict saddle points.
+Experiments on challenging inverse tasks, such as multi-coil MRI reconstruction and large-mask natural image inpainting, demonstrate consistent improvement over conventional PnP methods and achieve performance competitive with diffusion-based solvers.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+<section class="results">
+  <div class="container">
+    <h2>Reconstruction Performance</h2>
+    <p class="samples-note">Comparison of our method (SGPnP) with several PnP baselines (DPIR and SNORE) and diffusion-based solvers (DPS and DiffPIR) on FFHQ (inpainting, super-resolution, and deblurring) and fastMRI (compressed sensing MRI). SGPnP consistently outperforms conventional PnP methods and is comparable to diffusion-based solvers.</p>
+
+    <div class="samples-gallery">
+      <img src="assets/experiment1.png" alt="Quantitative comparison results" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="container results-block">
+    <h2>Effect of Noise Injection</h2>
+    <p class="samples-note">Comparison between score-based deterministic PnP (SDPnP) and stochastic generative PnP (SGPnP). These methods differ only in whether noise is injected into the denoiser input.</p>
+
+    <div class="samples-gallery">
+      <img src="assets/experiment2.png" alt="Comparison of SDPnP and SGPnP" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<section class="results">
+  <div class="container results-block">
+    <h2>Implementation Available</h2>
+<div class="resource-card highlight">
+  <div class="resource-title">SGPnP variants</div>
+  <p class="resource-desc">We share implementations of SGPnP-ADMM, SGPnP-DPIR, and SGPnP-PGM for inverse problems including inpainting, super-resolution, deblurring, and compressed sensing MRI.</p>
+  <div class="resource-actions inline" style="justify-content: center;">
+    <a class="btn" href="https://colab.research.google.com/github/lambertae/lambertae.github.io/blob/main/projects/drifting/notebooks/drifting_model_demo.ipynb">Open in GitHub</a>
+  </div>
+  </div>
+</div>
+  </div>
+</section>
+
+  <section class="bibtex">
+    <div class="container">
+      <h2>Citation</h2>
+      <pre><code>@article{park2026SGPnP,
+  title={Stochastic Generative Plug-and-Play Priors},
+  author={Park, Chicago Y. and Chandler, Edward P. and Hu, Yuyang and McCann, Michael T. and Garcia-Cardona, Cristina and Wohlberg, Brendt and Kamilov, Ulugbek S.},
+  journal={arXiv:2604.03603},
+  year={2026}
+}</code></pre>
+    </div>
+  </section>
+
+<footer>
+  <p>
+    We gratefully acknowledge the website design inspiration from
+    <a href="https://lambertae.github.io/projects/drifting/" target="_blank" rel="noopener noreferrer">
+      the Drifting Models project page
+    </a>.
+  </p>
+</footer>
+</body>
+</html>
+
